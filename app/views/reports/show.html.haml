@@ -1,0 +1,60 @@
+/= @ips
+:javascript
+  $(function() {
+  ips = #{@ips};
+  visits  = #{@visits.to_json};
+  downloads  = #{@downloads.to_json};
+  chart = new Highcharts.Chart({
+  chart: {
+  renderTo: 'ch',
+  defaultSeriesType: 'bar',
+  marginRight: 130
+  },
+  title: {
+  text: '"Forensik Analysis Network"'
+  },
+  subtitle: {
+  text: 'IP Access (#{@report.start_date} - #{@report.end_date})'
+  },
+  xAxis: {
+  categories: ips,
+  title: {
+  	text: null
+  }
+  },
+  yAxis: {
+  min: 0,
+  title: {
+  	text: ''
+  }
+  },
+  tooltip: {
+  formatter: function() {
+  	return ''+
+  		 this.series.name +': '+ this.y +'';
+  }
+  },
+  plotOptions: {
+  bar: {
+  	dataLabels: {
+  		enabled: true
+  	}
+  }
+  },
+  legend: {
+  layout: 'vertical',
+  align: 'right',
+  verticalAlign: 'top',
+  x: -10,
+  y: 200,
+  floating: true,
+  borderWidth: 1,
+  backgroundColor: '#FFFFFF',
+  shadow: true
+  },
+  credits: {
+  enabled: false
+  },
+  series: [{name: 'Access',data: visits},{name: 'Download (KBytes)',data: downloads}]
+  });
+  });

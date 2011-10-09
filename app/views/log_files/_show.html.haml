@@ -1,0 +1,15 @@
+.panel
+  %h3 Log File Details
+  .panel_contents
+    .attributes_table
+      %table{:border => 0, :cellspacing => 0, :cellpadding => 0}
+        %tbody
+          %tr
+            %th Host Name
+            %td= @log_file.server.host_name
+          %tr
+            %th IP
+            %td= @log_file.server.ip_address
+          %tr
+            %th File Path
+            %td= @log_file.log_file_name

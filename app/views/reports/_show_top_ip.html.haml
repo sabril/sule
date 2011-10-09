@@ -1,0 +1,121 @@
+.panel
+  %h3 Report Details
+  .panel_contents
+    .attributes_table
+      %table{:border => 0, :cellspacing => 0, :cellpadding => 0}
+        %tbody
+          %tr
+            %th Host Name
+            %td= @report.log_file.server.host_name
+          %tr
+            %th IP
+            %td= @report.log_file.server.ip_address
+          %tr
+            %th File Path
+            %td= @report.log_file.log.path
+          %tr
+            %th Report Type
+            %td= @report.report_type
+          %tr
+            %th Date Range
+            %td= "#{@report.start_date} to #{@report.end_date}"
+#bar{:style => "width:1000px; min-height:800px; margin: 0 auto;"}
+#pie{:style => "width:1000px; min-height:800px; margin: 0 auto;"}
+:javascript
+  $(function() {
+    ips = #{@report.ips};
+    visits  = #{@report.ip_counts.to_json};
+    percents = #{@report.ip_percents.to_json};
+    ip_downloads = #{@report.ip_downloads.to_json};
+    
+    chart_1 = new Highcharts.Chart({
+    chart: {
+    renderTo: 'bar',
+    defaultSeriesType: 'bar',
+    marginRight: 130
+    },
+    title: {
+    text: '#{@report.title}'
+    },
+    subtitle: {
+    text: '(#{@report.start_date} - #{@report.end_date})'
+    },
+    xAxis: {
+    categories: ips,
+    title: {
+    	text: null
+    }
+    },
+    yAxis: {
+    min: 0,
+    title: {
+    	text: ''
+    }
+    },
+    tooltip: {
+    formatter: function() {
+    	return ''+
+    		 this.series.name +': '+ this.y;
+    }
+    },
+    plotOptions: {
+    bar: {
+    	dataLabels: {
+    		enabled: true
+    	}
+    }
+    },
+    legend: {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'top',
+    x: -10,
+    y: 200,
+    floating: true,
+    borderWidth: 1,
+    backgroundColor: '#FFFFFF',
+    shadow: true
+    },
+    credits: {
+    enabled: false
+    },
+    series: [{name: 'Access',data: visits}, {name: 'Download (KBytes)',data: ip_downloads}]
+    });
+    
+    
+    chart_2 = new Highcharts.Chart({
+    chart: {
+    renderTo: 'pie',
+    plotBackgroundColor: null,
+    plotBorderWidth: null,
+    plotShadow: false
+    },
+    title: {
+    text: '#{@report.title}'
+    },
+    tooltip: {
+    formatter: function() {
+    	return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+    }
+    },
+    plotOptions: {
+    pie: {
+    	allowPointSelect: true,
+    	cursor: 'pointer',
+    	dataLabels: {
+    		enabled: true,
+    		color: '#000000',
+    		connectorColor: '#000000',
+    		formatter: function() {
+    			return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+    		}
+    	}
+    }
+    },
+    series: [{
+    type: 'pie',
+    name: 'Browser share',
+    data: percents
+    }]
+    });
+  });

@@ -1,0 +1,13 @@
+$(document).ready(function() {
+
+   $('#report_server_id').change(function(){
+     $.ajax({url: '/ajax/search_log_file/' + $('#report_server_id').val(),
+       //data: 'server_id=' + $('#report_server_id').val(),
+	   //dataType: 'json',
+       success: function(data){
+		$('#report_log_file_id').html(data)
+         //$('#report_server_id').html(data);
+         }
+     })
+   });
+ });

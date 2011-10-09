@@ -1,0 +1,7 @@
+schema.rb
+tmp/*
+*.log
+*.yml
+public/assets/*
+.DS_Store
+log_files
