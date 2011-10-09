@@ -22,3 +22,6 @@ set :environment, 'production'
 every 30.minutes do
   runner "app/controllers/parser_controller.rb"
 end
+every 1.weeks do 
+  rake "log:clear"
+end
