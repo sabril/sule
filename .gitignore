@@ -1,3 +1,4 @@
+vendor/cache/*
 schema.rb
 tmp/*
 *.log
